@@ -1,0 +1,109 @@
+import os
+import datetime
+import time
+import pytz
+import calendar
+import requests
+import weatherapi
+from dotenv import load_dotenv
+
+load_dotenv()
+
+WEATHERAPI_TOKEN = os.getenv('WEATHERAPI_TOKEN')
+WEATHERAPI_GEO = os.getenv('WEATHERAPI_GEO')
+TELEGRAM_BOT_TOKEN =  os.getenv('TELEGRAM_BOT_TOKEN')
+TELEGRAM_CHAT_ID =  os.getenv('TELEGRAM_CHAT_ID')
+USER_LOCAL_TIMEZONE =  os.getenv('USER_LOCAL_TIMEZONE')
+
+days_of_week = {
+    "Monday": "Понедельник",
+    "Tuesday": "Вторник",
+    "Wednesday": "Среда",
+    "Thursday": "Четверг",
+    "Friday": "Пятница",
+    "Saturday": "Суббота",
+    "Sunday": "Воскресенье"
+}
+
+months = {
+    "January": "Января",
+    "February": "Февраля",
+    "March": "Марта",
+    "April": "Апреля",
+    "May": "Мая",
+    "June": "Июня",
+    "July": "Июля",
+    "August": "Августа",
+    "September": "Сентября",
+    "October": "Октября",
+    "November": "Ноября",
+    "December": "Декабря"
+}
+
+
+def current_time():
+    user_tz = pytz.timezone(USER_LOCAL_TIMEZONE)
+    now = datetime.datetime.now(user_tz)
+    hours = now.hour
+    return int(hours)
+
+
+def current_day():
+    user_tz = pytz.timezone(USER_LOCAL_TIMEZONE)
+    now = datetime.datetime.now(user_tz)
+    day = now.day
+    number_month = now.month
+    month = months[calendar.month_name[number_month]]
+    year = now.year
+    day_of_week = calendar.weekday(year, number_month, day)
+    full_day_name = days_of_week[calendar.day_name[day_of_week]]  
+    return f"Сегодня {day} {month}, {full_day_name}"
+
+
+
+def tg_send_message(text):
+    url = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage'
+    data = {
+        'chat_id': TELEGRAM_CHAT_ID,
+        'text': text,
+    }
+    response = requests.post(url, json=data)
+    resp = response.json()
+    print(resp)
+
+
+
+# print (text_mess)
+# tg_send_message(text_mess)
+
+# time.sleep(5)
+
+
+
+
+
+
+def main():
+    c_time = current_time()
+    if c_time == 3:
+        message = current_day()
+        weather = weatherapi.weatherapi_current(WEATHERAPI_TOKEN, WEATHERAPI_GEO)
+        if weather is not None:
+            if weather != '':
+                message += "\n\n" + weather
+        tg_send_message(message)
+        time.sleep(5)      
+        weather_forecastday = weatherapi.weatherapi_forecastday(WEATHERAPI_TOKEN, WEATHERAPI_GEO)
+        if weather_forecastday is not None:
+            if weather_forecastday != '':
+                tg_send_message(weather_forecastday)
+    else:
+        weather = weatherapi.weatherapi_current(WEATHERAPI_TOKEN, WEATHERAPI_GEO)
+        if weather is not None:
+            if weather != '':
+                tg_send_message(weather)
+
+
+
+if __name__ == "__main__":
+    main()
