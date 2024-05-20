@@ -85,7 +85,7 @@ def tg_send_message(text):
 
 def main():
     c_time = current_time()
-    if c_time == 3:
+    if c_time == 6:
         message = current_day()
         weather = weatherapi.weatherapi_current(WEATHERAPI_TOKEN, WEATHERAPI_GEO)
         if weather is not None:
