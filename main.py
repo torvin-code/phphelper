@@ -69,17 +69,7 @@ def tg_send_message(text):
     }
     response = requests.post(url, json=data)
     resp = response.json()
-    print(resp)
-
-
-
-# print (text_mess)
-# tg_send_message(text_mess)
-
-# time.sleep(5)
-
-
-
+    #print(resp)
 
 
 
