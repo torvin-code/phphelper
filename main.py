@@ -5,6 +5,7 @@ import pytz
 import calendar
 import requests
 import weatherapi
+import rssnewsparser
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,6 +15,9 @@ WEATHERAPI_GEO = os.getenv('WEATHERAPI_GEO')
 TELEGRAM_BOT_TOKEN =  os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID =  os.getenv('TELEGRAM_CHAT_ID')
 USER_LOCAL_TIMEZONE =  os.getenv('USER_LOCAL_TIMEZONE')
+TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID')
+JSON_API_KEY = os.getenv('JSON_API_KEY')
+JSON_BIN = os.getenv('JSON_BIN')
 
 days_of_week = {
     "Monday": "Понедельник",
@@ -60,6 +64,13 @@ def current_day():
     return f"Сегодня {day} {month}, {full_day_name}"
 
 
+def rss():
+    data = rssnewsparser.get_new_posts(JSON_API_KEY, JSON_BIN)
+    if len(data) > 0:
+        for post in data:
+            tg_send_post(post)
+            time.sleep(5) 
+
 
 def tg_send_message(text):
     url = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage'
@@ -70,6 +81,19 @@ def tg_send_message(text):
     response = requests.post(url, json=data)
     resp = response.json()
     #print(resp)
+
+
+def tg_send_post(text):
+    url = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage'
+    data = {
+        'chat_id': TELEGRAM_CHANNEL_ID,
+        'text': text,
+        'parse_mode': 'HTML'
+    }
+    response = requests.post(url, json=data)
+    resp = response.json()
+    #print(resp)
+
 
 
 
@@ -92,7 +116,7 @@ def main():
         if weather is not None:
             if weather != '':
                 tg_send_message(weather)
-
+    rss()
 
 
 if __name__ == "__main__":

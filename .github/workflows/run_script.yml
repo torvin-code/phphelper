@@ -2,13 +2,16 @@ name: Python Informer
 
 on:
   schedule:
-    - cron: '5 * * * *' 
+    - cron: '20 * * * *' 
 env:
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   USER_LOCAL_TIMEZONE: ${{ secrets.USER_LOCAL_TIMEZONE }}
   WEATHERAPI_GEO: ${{ secrets.WEATHERAPI_GEO }}
   WEATHERAPI_TOKEN: ${{ secrets.WEATHERAPI_TOKEN }}
+  TELEGRAM_CHANNEL_ID = ${{ secrets.TELEGRAM_CHANNEL_ID }}
+  JSON_API_KEY = ${{ secrets.JSON_API_KEY }}
+  JSON_BIN = ${{ secrets.JSON_BIN }}
 jobs:
   Daily-Run:
     runs-on: ubuntu-latest
