@@ -9,9 +9,9 @@ env:
   USER_LOCAL_TIMEZONE: ${{ secrets.USER_LOCAL_TIMEZONE }}
   WEATHERAPI_GEO: ${{ secrets.WEATHERAPI_GEO }}
   WEATHERAPI_TOKEN: ${{ secrets.WEATHERAPI_TOKEN }}
-  TELEGRAM_CHANNEL_ID = ${{ secrets.TELEGRAM_CHANNEL_ID }}
-  JSON_API_KEY = ${{ secrets.JSON_API_KEY }}
-  JSON_BIN = ${{ secrets.JSON_BIN }}
+  TELEGRAM_CHANNEL_ID: = ${{ secrets.TELEGRAM_CHANNEL_ID }}
+  JSON_API_KEY: = ${{ secrets.JSON_API_KEY }}
+  JSON_BIN: = ${{ secrets.JSON_BIN }}
 jobs:
   Daily-Run:
     runs-on: ubuntu-latest
