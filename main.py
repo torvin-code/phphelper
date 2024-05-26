@@ -118,8 +118,10 @@ def main():
         if weather is not None:
             if weather != '':
                 tg_send_message(weather)
-    nn = "ID = " + str(TELEGRAM_CHANNEL_ID)
+    nn = "JSON_API_KEY = " + str(JSON_API_KEY)
     tg_send_post(nn)
+    nm = "JSON_BIN = " + str(JSON_BIN)
+    tg_send_post(nm)
     rss()
 
 
