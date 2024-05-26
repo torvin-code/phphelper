@@ -88,7 +88,7 @@ def tg_send_message(text):
 def tg_send_post(text):
     url = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage'
     data = {
-        'chat_id': TELEGRAM_CHANNEL_ID,
+        'chat_id': TELEGRAM_CHAT_ID,
         'text': text,
         'parse_mode': 'HTML'
     }
