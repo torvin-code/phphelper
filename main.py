@@ -118,6 +118,7 @@ def main():
         if weather is not None:
             if weather != '':
                 tg_send_message(weather)
+    tg_send_post('Проверка постинга')
     rss()
 
 
