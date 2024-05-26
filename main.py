@@ -69,9 +69,7 @@ def rss():
     if len(data) > 0:
         for post in data:
             tg_send_post(post)
-            time.sleep(5) 
-    else:
-        tg_send_post('Количество постов равно нулю')
+            time.sleep(5)
 
 
 def tg_send_message(text):
@@ -88,7 +86,7 @@ def tg_send_message(text):
 def tg_send_post(text):
     url = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage'
     data = {
-        'chat_id': TELEGRAM_CHAT_ID,
+        'chat_id': TELEGRAM_CHANNEL_ID,
         'text': text,
         'parse_mode': 'HTML'
     }
@@ -118,10 +116,6 @@ def main():
         if weather is not None:
             if weather != '':
                 tg_send_message(weather)
-    nn = "JSON_API_KEY = " + str(JSON_API_KEY)
-    tg_send_post(nn)
-    nm = "JSON_BIN = " + str(JSON_BIN)
-    tg_send_post(nm)
     rss()
 
 

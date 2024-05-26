@@ -6,8 +6,6 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 def get_new_posts(JSON_API_KEY, JSON_BIN):
     data = []
     setting = get_setting(JSON_API_KEY, JSON_BIN)
-    if setting is None:
-        data.append('Настройки не получены')
     if setting is not None:
         i = 0
         for rss in setting['rss']:
