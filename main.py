@@ -70,6 +70,8 @@ def rss():
         for post in data:
             tg_send_post(post)
             time.sleep(5) 
+    else:
+        tg_send_post('Количество постов равно нулю')
 
 
 def tg_send_message(text):
