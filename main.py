@@ -92,7 +92,7 @@ def tg_send_post(text):
     }
     response = requests.post(url, json=data)
     resp = response.json()
-    #print(resp)
+    print(resp)
 
 
 
