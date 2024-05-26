@@ -118,7 +118,8 @@ def main():
         if weather is not None:
             if weather != '':
                 tg_send_message(weather)
-    tg_send_post('Проверка постинга')
+    nn = "ID = " + str(TELEGRAM_CHANNEL_ID)
+    tg_send_post(nn)
     rss()
 
 
