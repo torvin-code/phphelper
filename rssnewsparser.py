@@ -1,5 +1,7 @@
+import time
 import requests
 import feedparser
+import translators as ts
 
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0'
 
@@ -28,9 +30,13 @@ def get_rss(rss):
         items = []
         d = feedparser.parse(r.text)
         for i in d.entries:
-            if rss['last_news'] == i.title:
+            title_news = i.title
+            if rss['lang'].strip() != 'ru':
+                title_news = translate_news(title_news)
+                time.sleep(3)
+            if rss['last_news'] == title_news:
                 break
-            item = {"title": i.title, "url": i.link}
+            item = {"title": title_news, "url": i.link}
             items.append(item)
         if len(items) > 0:
             return items
@@ -64,4 +70,12 @@ def upd_setting(JSON_API_KEY, JSON_BIN, setting):
         a = req.status_code
         if a == 200:
             break
+
+
+def translate_news(title_news):
+    try:
+        title_translate = ts.translate_text(title_news, translator='bing', from_language = 'auto', to_language = 'ru')
+    except:
+        return title_news
+    return title_translate
 
