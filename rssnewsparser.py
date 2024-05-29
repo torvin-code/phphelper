@@ -13,7 +13,7 @@ def get_new_posts(JSON_API_KEY, JSON_BIN):
         for rss in setting['rss']:
             item = get_rss(rss)
             if item is not None:
-                setting['rss'][i]['last_news'] = item[0]['title']
+                setting['rss'][i]['last_news'] = item[0]['pubtime']
                 for post_item in item:
                     post = f"{post_item['title']}\n<a href=\"{post_item['url']}\">{post_item['url']}</a>"
                     data.append(post)
@@ -30,13 +30,14 @@ def get_rss(rss):
         items = []
         d = feedparser.parse(r.text)
         for i in d.entries:
+            pubtime = i.published.strip()
+            if rss['last_news'].strip() == pubtime:
+                break
             title_news = i.title
             if rss['lang'].strip() != 'ru':
                 title_news = translate_news(title_news)
                 time.sleep(3)
-            if rss['last_news'] == title_news:
-                break
-            item = {"title": title_news, "url": i.link}
+            item = {"title": title_news, "url": i.link, "pubtime": pubtime}
             items.append(item)
         if len(items) > 0:
             return items
