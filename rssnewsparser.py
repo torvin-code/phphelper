@@ -14,6 +14,7 @@ def get_new_posts(JSON_API_KEY, JSON_BIN):
             item = get_rss(rss)
             if item is not None:
                 setting['rss'][i]['last_news'] = item[0]['pubtime']
+                item.reverse()
                 for post_item in item:
                     post = f"{post_item['title']}\n<a href=\"{post_item['url']}\">{post_item['url']}</a>"
                     data.append(post)
