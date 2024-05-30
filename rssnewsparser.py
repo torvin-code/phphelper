@@ -31,7 +31,7 @@ def get_rss(rss):
         items = []
         d = feedparser.parse(r.text)
         for i in d.entries:
-            last_rss_time = int(rss['last_news'].strip())
+            last_rss_time = int(rss['last_news'])
             pubtime_struct = i.published_parsed
             pubtime = int(time.mktime(pubtime_struct))
             if last_rss_time >= pubtime:
