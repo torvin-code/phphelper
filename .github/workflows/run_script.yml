@@ -12,6 +12,7 @@ env:
   TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
   JSON_API_KEY: ${{ secrets.JSON_API_KEY }}
   JSON_BIN: ${{ secrets.JSON_BIN }}
+  URL_SITE: ${{ secrets.URL_SITE }}
 jobs:
   Daily-Run:
     runs-on: ubuntu-latest

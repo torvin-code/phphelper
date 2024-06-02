@@ -18,6 +18,8 @@ USER_LOCAL_TIMEZONE =  os.getenv('USER_LOCAL_TIMEZONE')
 TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID')
 JSON_API_KEY = os.getenv('JSON_API_KEY')
 JSON_BIN = os.getenv('JSON_BIN')
+URL_SITE = os.getenv('URL_SITE')
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0'
 
 days_of_week = {
     "Monday": "Понедельник",
@@ -95,9 +97,16 @@ def tg_send_post(text):
     #print(resp)
 
 
+def cron_site():
+    try:
+        headers = {'user-agent': USER_AGENT}
+        requests.get(URL_SITE, headers=headers)
+    except:
+        pass
 
 
 def main():
+    cron_site()
     c_time = current_time()
     if c_time == 6:
         message = current_day()
@@ -117,6 +126,7 @@ def main():
             if weather != '':
                 tg_send_message(weather)
     rss()
+    cron_site()
 
 
 if __name__ == "__main__":
